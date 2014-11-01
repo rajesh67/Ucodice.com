@@ -8,6 +8,7 @@ import datetime
 from django.utils.text import slugify
 from django.core.urlresolvers import reverse
 
+connect(POSTDB)
 from plans.models import PostPlan,Plan
 
 
