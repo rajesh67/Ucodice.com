@@ -1,1 +1,1 @@
-web: gunicorn Ucodice.wsgi:application
+web: waitress-serve --port=$PORT Ucodice.wsgi:application
