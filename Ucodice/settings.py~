@@ -72,10 +72,6 @@ DATABASES = {
         'ENGINE': 'django.db.backends.dummy',
     }
 }
-import dj_database_url
-DATABASES = {
-    "default": dj_database_url.config(default='postgres://localhost'),
-}
 POSTDB='postDB'
 PLANDB='planDB'
 
