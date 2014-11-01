@@ -1,1 +1,1 @@
-web: gunicorn Ucodice.wsgi
+web: gunicorn Ucodice.wsgi:application
