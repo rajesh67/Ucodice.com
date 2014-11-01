@@ -22,7 +22,7 @@ SECRET_KEY = 'z89fi@9!+ebpsun_xpr=m#op#a1+wql3t*)u_u^x@3lzu7fg@g'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -41,8 +41,6 @@ INSTALLED_APPS = (
     #3rd party
     'mongoengine',
     'bootstrapform',
-    'debug_toolbar',
-
 
     'plans',
     'posts',
