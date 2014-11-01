@@ -7,6 +7,7 @@ from mongoengine import *
 import datetime
 from Ucodice.settings import PLANDB
 from django.core.urlresolvers import reverse
+connect(PLANDB)
 
 class Plan(EmbeddedDocument):
     starting=DateTimeField()

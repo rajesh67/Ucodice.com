@@ -24,7 +24,9 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['rolluser.herokuapp.com']
+
 
 
 # Application definition
