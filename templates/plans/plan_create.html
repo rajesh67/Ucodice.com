@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+{% load plan_extras %}
+
+{% block navmenu %}
+<ul class="nav navbar-nav pull-right" style="margin-right:20px;">
+      <li style="margin-right:10px;"><h4>
+        <a href="/posts/add/">
+          <button class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>post</button>
+        </a>
+        </h4>
+      </li>
+    {% if user %}
+    <li>
+        <h4>
+          <a href="/login/">
+            <button class="btn btn-primary"><span class="glyphicon glyphicon-user"></span>{{ request.user.username }}</button>
+          </a>
+        </h4>
+      </li>
+    {% else %}
+      <li>
+        <h4>
+          <a href="/login/">
+            <button class="btn btn-primary"><span class="glyphicon glyphicon-user"></span>Login/SignUp</button>
+          </a>
+        </h4>
+      </li>
+      {% endif %}
+ </ul>
+{% endblock navmenu %}
+
+{% block main_page %}
+<div class="container" xmlns="http://www.w3.org/1999/html">
+    <div class="row">
+		<div class="col-md-4">
+            <h5>Request Details</h5>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{ post.title }}<h5 class="pull-right">
+                    posted by:<a href=""><small>{{ post.posted_by }}</small></a>
+                    </h5>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        {{ post.description }}
+                        <br/>
+                    </div>
+                    <div class="col-md-3">
+                            Duration:<button class="btn btn-primary">{{ post.duration }}<small>Days</small></button>
+                    </div>
+                    <div class="col-md-4">
+                        Arrival:<button class="btn btn-primary">{{ post.arrival.date }}</button>
+                    </div>
+                    <div class="col-md-4">
+                        Departure:<button class="btn btn-primary">{{ post.departure.date }}</button>
+                    </div>
+                </div>
+            </div><!-- //panel-primary -->
+        </div><!--//.row col-md-4 -->
+
+        <div class="col-md-8">
+            <div class="pull-center">
+                Today:{{ post.departure.date }}
+            </div>
+            <form id="myWizard" type="post" action="" class="form-horizontal">
+                    <section class="step" data-step-title="First step">
+                            <div id="create-button" class="pull-center">
+                                <a href="{{ backday_url }}" style="margin-left:300px;">
+                                    <img src="{{ STATIC_URL }}images/arrowup.png">
+                                    Save today and Go back to Yesterday
+                                </img>
+                                </a>
+                            </div>
+                            <div id="time-slots" style="margin-top:0px;"> 
+                            </div>
+                            <div id="goto-nextDay">
+                            <a href="{{ nextday_url }}" style="margin-left:300px;">
+                                    <img src="{{ STATIC_URL }}images/arrowdown.png" style="margin-top:60px;">
+                                    <span>Save Today and Continue Planning</span>
+                                </img>
+                            </a>
+                            </div>
+                    </section>
+                    <section class="step" data-step-title="Second step">
+
+                        {{ form|bootstrap_horizontal }}
+                    </section>
+                </form>
+        </div><!--//.row col-md-8 -->
+        <div class="col-md-12">
+            <p>
+                <label for="amount">Price range:</label>
+                <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            </p>
+            <div id="slider-range"></div>
+        </div><!--//md12 -->
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <div id="slider-range"></div>
+            </div>
+        </div>  
+    </div>
+
+<script type="text/javascript">
+var myarr = [60];
+var myarrlength=myarr.length
+$(function(){
+    $("#slider-range").timeslider({
+        min:50,
+        max:80,
+        step:5,
+        values: myarr,
+        slide: function( event, ui ) {
+            if ( ui.values[0] >= ui.values[1] ) {
+                return false;
+            } 
+            $("#min").val(myarrlength);
+            
+            $(this).find(".range0").css({ "width": ui.values[0] + "%" });
+        },
+        create: function(event, ui) {
+                $(this).css({"height":'35px'});
+        },
+        change:function(event,ui){
+            // update spans with slider values
+            $(this).children(".ui-slider-handle").first().children("span").html(lower);
+            $(this).children(".ui-slider-handle").last().children("span").html(upper);
+                /*if(index===myarrlength-1){
+                    icon=true;
+                }
+                while(!(index===myarrlength-1)){
+                    if(ui.values[index]>=ui.values[index+1]){
+                        return false;
+                    }else if(!(ui.values[index]>=ui.values[index+1])){
+                        return true;
+                    }else if(ui.values[index]<=ui.values[index+1]){
+                        return true;
+                    }else if(!(ui.values.values[index]<=ui.values[index+1])){
+                        return false;
+                    }
+                }*/
+        },
+    });
+});
+</script>
+
+{% endblock main_page %}

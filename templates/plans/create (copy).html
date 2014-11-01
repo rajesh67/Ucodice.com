@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+{% block main_page %}
+<div class="container" style="margin-top:70px;">
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+
+				<b>Post: </b> {{ post.title }}
+
+                <span class="pull-right">
+                    Duration:<b>{{ post.duration }}days</b>,
+                    Arriving on:<b>{{ post.arrival }}</b>,
+                    Ending on:<b>{{ post.departure }}</b>,
+                </span>
+			</div>
+			<div class="panel-body">
+				{{ post.description }}
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <b>Plese Choose Plan for today from 24 hours of the day</b>
+            </div>
+            <div class="panel-body">
+                <span id="array"></span>
+                <span>
+                    from<input id="min"></input>
+                </span>
+                <span>
+                    to<input id="max"></input>
+                </span>
+                <span>
+                    <button id="add-plan-button" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>Add Plan</button>
+                </span>
+                <div id="slider-range" style="margin-top:20px;"></div>
+                <div id="range" style="margin-top:50px;"></div>
+                <span id="plans-description" class="col-md-12">
+        		    <div class="col-sm-1" style="width:4.16%;margin-left:-29px;">12 A.M</div>
+                    <div class="col-sm-1" style="width:4.16%;margin-left:-0px;">1 A.M</div>
+                    <div class="col-sm-1" style="width:4.16%;margin-left:-0px;">2 A.M</div>
+                    <div class="col-sm-1" style="width:4.16%;margin-left:-0px;">3 A.M</div>
+					<div class="col-sm-1" style="width:4.16%;margin-left:-0px;">4 A.M</div>
+                    <div class="col-sm-1" style="width:4.16%;margin-left:-0px;">5 A.M</div>
+                    <div class="col-sm-1" style="width:4.16%;margin-left:-0px;">6 A.M</div>
+                    <div class="col-sm-1" style="width:4.16%;margin-left:-0px;">7 A.M</div>
+					<div class="col-sm-1" style="width:4.16%;margin-left:-0px;">8 A.M</div>
+                    <div class="col-sm-1" style="width:4.16%;margin-left:-0px;">9 A.M</div>
+                    <div class="col-sm-1" style="width:4.16%;margin-left:-0px;">10 A.M</div>
+                    <div class="col-sm-1" style="width:4.16%;margin-left:-0px;">11 A.M</div>
+					<div class="col-sm-1" style="width:4.16%;margin-left:-0px;">12 P.M</div>
+                    <div class="col-sm-1" style="width:4.16%;margin-left:-0px;">1 P.M</div>
+                    <div class="col-sm-1" style="width:4.16%;margin-left:-0px;">2 P.M</div>
+                    <div class="col-sm-1" style="width:4.16%;margin-left:-0px;">3 P.M</div>
+					<div class="col-sm-1" style="width:4.16%;margin-left:-0px;">4 P.M</div>
+                    <div class="col-sm-1" style="width:4.16%;margin-left:-0px;">5 P.M</div>
+                    <div class="col-sm-1" style="width:4.16%;margin-left:-0px;">6 P.M</div>
+                    <div class="col-sm-1" style="width:4.16%;margin-left:-0px;">7 P.M</div>
+					<div class="col-sm-1" style="width:4.16%;margin-left:-0px;">8 P.M</div>
+                    <div class="col-sm-1" style="width:4.16%;margin-left:-0px;">9 P.M</div>
+                    <div class="col-sm-1" style="width:4.16%;margin-left:-0px;">10 P.M</div>
+                    <div class="col-sm-1" style="width:4.16%;margin-left:-0px;">11 P.M</div>
+                    <div class="col-md-12" style="margin-top:50px;">
+        
+        <div>
+<div id="my-widget1">color me</div>
+<div id="my-widget2">color me</div>
+<div id="my-widget3">color me</div>
+<button id="disable">Toggle disabled option</button>
+<button id="green">Go green</button>
+</div>
+                    </div>
+                </span><!--/plans-description -->
+
+                <div id="plan-form" style="display:block;margin-top:20px;margin-left:50px;">
+                    <form enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div><!--/plan-form -->
+
+            </div>
+        </div>
+	</div>
+
+</div>
+</div>
+<script>
+/*		$(function() {
+		    $("#slider").slider({
+				range:true,
+				value:10,
+				min: 0,
+				max: 24,
+				step: 1,
+				values:[8,18],
+				slide: function( event, ui ) {
+                    if(ui.values[0]>12){
+				        $('#min').val(ui.values[0]-12+" P.M");
+				    }else if(ui.values[0]<=11){
+				        $('#min').val(ui.values[ 0 ]+" A.M");
+				    }else if(ui.values[0]){
+				        $('#min').val(ui.values[ 0 ]+" P.M");
+				    }
+				    if(ui.values[1]<=11){
+				        $('#max').val(ui.values[ 1 ]+" A.M");
+				    }else if(ui.values[1]>12){
+				        $('#max').val(ui.values[1]-12+" P.M");
+				    }else if(ui.values[1]===12){
+				        $('#max').val(ui.values[ 1 ]+" P.M");
+				    }
+				  }
+				});
+		
+		$("#max").val("6 P.M");
+	    $("#plan-form").hide();
+        $("#add-plan-button").on("click",function(){
+             $("#plan-form").show();
+		});
+});
+*/
+var myarr = [ 10,25,35, 50, 60 ,70,80,];
+var myarrlength=myarr.length
+$(function() {
+    //slider-range
+    $( "#slider-range" ).timeslider({
+        min: 5,
+        max: 100,
+        step:5,
+        values: myarr,
+        slide: function( event, ui ) {
+            if ( ui.values[0] >= ui.values[1] ) {
+                return false;
+            }
+            if ( ui.values[1] >= ui.values[2] ) {
+                return false;
+            }
+            if ( ui.values[2] >= ui.values[3] ) {
+                return false;
+            }
+            if ( ui.values[3] <= ui.values[2] ) {
+                return false;
+            }
+            if (ui.values[4]<=ui.values[3]){
+                return false;
+            }
+            if (ui.values[5]<=ui.values[4]){
+                return false;
+            }
+            if (ui.values[6]<=ui.values[5]) {
+                return false;
+            };    
+            $("#min").val(myarrlength);
+            
+            $(this).find(".range0").css({ "width": ui.values[0] + "%" });
+            $(this).find(".range1").css({ "left": ui.values[0] + "%", "width": (ui.values[1]-ui.values[0])  + "%" }) ;
+            $(this).find(".range2").css({ "left": ui.values[1] + "%", "width": (ui.values[2]-ui.values[1]) + "%" }) ;
+            $(this).find(".range3").css({ "left": ui.values[2] + "%", "width": (ui.values[3]-ui.values[2]) + "%" }) ;
+            $(this).find(".range4").css({ "left": ui.values[3] + "%", "width": (ui.values[4]-ui.values[3])+ "%" }) ;
+            $(this).find(".range5").css({ "left": ui.values[4] + "%", "width": (ui.values[5]-ui.values[4]) + "%" }) ;
+            $(this).find(".range6").css({ "left": ui.values[5] + "%", "width": (ui.values[6]-ui.values[5]) + "%" }) ;
+            $(this).find(".range7").css({ "left": ui.values[6] + "%", "width": 100-ui.values[6] + "%" }) ;
+        },
+        create: function(event, ui) {
+                $(this).css({"height":'35px'});
+                $(this).append('<div class="ui-slider-range ui-widget-header range0" style="left: 0%; width: ' + myarr[0] + '%; background:none no-repeat scroll 0% 0% ;>'
+                    +'<span style="color:black; left:0px;" z-index="5"></span>'
+                    +'</div>');
+                $(this).append('<div class="ui-slider-range ui-widget-header range1" style="left: ' + myarr[0] + '%; width: ' + (100-myarr[1]) + '%; background: none repeat scroll 0% 0% ;">'
+                    +'<div class="right-corner" style="left"></div> </div>');
+                $(this).append('<div class="ui-slider-range ui-widget-header range2" style="left: ' + myarr[1] + '%; width: ' + (100-myarr[2]) + '%; background: none repeat scroll 0% 0% ;"></div>');
+                $(this).append('<div class="ui-slider-range ui-widget-header range3" style="left: ' + myarr[2] + '%; width: ' + (100-myarr[3]) + '%; background: none repeat scroll 0% 0% ;"></div>');
+                $(this).append('<div class="ui-slider-range ui-widget-header range4" style="left: ' + myarr[3] + '%; width: ' + (100-myarr[4]) + '%; background: none repeat scroll 0% 0% ;"></div>');
+                $(this).append('<div class="ui-slider-range ui-widget-header range5" style="left: ' + myarr[4] + '%; width: ' + (100-myarr[5]) + '%; background: none repeat scroll 0% 0% ;;"></div>');
+                $(this).append('<div class="ui-slider-range ui-widget-header range6" style="left: ' + myarr[5] + '%; width: ' + (100-myarr[6]) + '%; background: none repeat scroll 0% 0% ;"></div>');
+                $(this).append('<div class="ui-slider-range ui-widget-header range7" style="left: ' + myarr[6] + '%; width: ' + (100-myarr[6]) + '%; background: none repeat scroll 0% 0% ;"></div>');
+
+
+        },
+        change:function(event,ui){
+            // update spans with slider values
+            $(this).children(".ui-slider-handle").first().children("span").html(lower);
+            $(this).children(".ui-slider-handle").last().children("span").html(upper);
+                /*if(index===myarrlength-1){
+                    icon=true;
+                }
+                while(!(index===myarrlength-1)){
+                    if(ui.values[index]>=ui.values[index+1]){
+                        return false;
+                    }else if(!(ui.values[index]>=ui.values[index+1])){
+                        return true;
+                    }else if(ui.values[index]<=ui.values[index+1]){
+                        return true;
+                    }else if(!(ui.values.values[index]<=ui.values[index+1])){
+                        return false;
+                    }
+                }*/
+        },
+    });
+
+    $("#slider").timeslots();
+});
+
+</script>
+
+
+
+{% endblock main_page%}

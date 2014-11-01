@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block main_page %}
+
+<div class="container" style="margin-top:70px;">
+<div class="row">
+	<div class="col-md-4">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Post Details
+			</div>
+			<div class="panel-body">
+				Post Details goes here
+			</div>
+		</div>
+	</div>
+	<div class="col-md-2">
+		<div class="btn-group pull-right">
+			<button type="button" class="btn btn-default pull-right">Content</button><br/>
+			<button type="button" class="btn btn-default pull-right">Links</button><br/>
+			<button type="button" class="btn btn-default pull-right">Pictures</button><br/>
+		</div>
+	</div>
+	<div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{ post.title }}<br/>
+                {{ post.slug }}
+                <span class="pull-right">
+                    ending_on:{{ post.departure }}
+                </span>
+            </div>
+            <div class="panel-body">
+                 <p>
+                     {{ post.description }}
+                 </p>
+                <h4>Arrival:<b>{{ post.arrival }}</b>
+                <span class="pull-right">
+                    Duration:{{ post.duration }} days
+                </span>
+                </h4>
+                <span class="pull-right">
+                    <a href="./1/">
+                        <button class="btn btn-success">Plan This Tour</button>
+                    </a>
+                </span>
+            </div>
+        </div>
+	</div>
+</div>
+</div>
+
+{% endblock main_page%}

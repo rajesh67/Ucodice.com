@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load plan_extras %}
+{% load bootstrap %}
+{% block main_page %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">{{ post.title }}
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-6">
+                        {{ post.description }}
+                    </div>
+                    <div class="col-md-1">
+                        <a href="{% url 'post-update' post.slug %}"><b>Update</b></a>
+                
+                    </div>
+                    <div class="col-md-5">
+                        <span class="pull-right">
+                            <a href="{% url 'plan-create' post.slug year month day %}">
+                                <button class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Apply as Planner</button>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  {% endblock main_page %}

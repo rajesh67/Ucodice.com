@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+{% load plan_extras %}
+
+{% block navmenu %}
+<ul class="nav navbar-nav pull-right" style="margin-right:20px;">
+      <li style="margin-right:10px;"><h4>
+        <a href="/posts/add/">
+          <button class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>post</button>
+        </a>
+        </h4>
+      </li>
+    {% if user %}
+    <li>
+        <h4>
+          <a href="/login/">
+            <button class="btn btn-primary"><span class="glyphicon glyphicon-user"></span>{{ request.user.username }}</button>
+          </a>
+        </h4>
+      </li>
+    {% else %}
+      <li>
+        <h4>
+          <a href="/login/">
+            <button class="btn btn-primary"><span class="glyphicon glyphicon-user"></span>Login/SignUp</button>
+          </a>
+        </h4>
+      </li>
+      {% endif %}
+ </ul>
+{% endblock navmenu %}
+
+{% block main_page %}
+<div class="container" xmlns="http://www.w3.org/1999/html">
+    <div class="row">
+		<div class="col-md-4">
+            <h5>Request Details</h5>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{ post.title }}<h5 class="pull-right">
+                    posted by:<a href=""><small>{{ post.posted_by }}</small></a>
+                    </h5>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        {{ post.description }}
+                        <br/>
+                    </div>
+                    <div class="col-md-3">
+                            Duration:<button class="btn btn-primary">{{ post.duration }}<small>Days</small></button>
+                    </div>
+                    <div class="col-md-4">
+                        Arrival:<button class="btn btn-primary">{{ post.arrival.date }}</button>
+                    </div>
+                    <div class="col-md-4">
+                        Departure:<button class="btn btn-primary">{{ post.departure.date }}</button>
+                    </div>
+                </div>
+            </div><!-- //panel-primary -->
+        </div><!--//.row col-md-4 -->
+
+        <div class="col-md-8">
+            <div class="pull-center">
+                Today:{{ post.departure.date }}
+            </div>
+            <form id="myWizard" type="post" action="" class="form-horizontal">
+                    <section class="step" data-step-title="First step">
+                            <div id="create-button" class="pull-center">
+                                <a href="{{ backday_url }}" style="margin-left:300px;">
+                                    <img src="{{ STATIC_URL }}images/arrowup.png">
+                                    Save today and Go back to Yesterday
+                                </img>
+                                </a>
+                            </div>
+                            <div id="time-slots" style="margin-top:0px;">
+                                
+                            </div>
+                            <div id="goto-nextDay">
+                            <a href="{{ nextday_url }}" style="margin-left:300px;">
+                                    <img src="{{ STATIC_URL }}images/arrowdown.png" style="margin-top:60px;">
+                                    <span>Save Today and Continue Planning</span>
+                                </img>
+                            </a>
+                            </div>
+                    </section>
+                    <section class="step" data-step-title="Second step">
+
+                        {{ form|bootstrap_horizontal }}
+                    </section>
+                </form>
+        </div><!--//.row col-md-8 -->
+        <div class="col-md-12">
+            <table border="1" style="width:100%">
+                <tr>
+                    <tr>
+                        <td>
+                            <img src="{{ STATIC_URL }}images/right.png">
+                            <img src="{{ STATIC_URL }}images/left.png">
+                        </td>
+                        <td>
+                            <img src="{{ STATIC_URL }}images/right.png">
+                            <img src="{{ STATIC_URL }}images/left.png">
+                        </td>
+                    </tr>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+<script type="text/javascript">
+ $(function() {
+    $( "#resizable" ).resizable({
+        maxHeight: 250,
+        maxWidth: 350,
+        minHeight: 150,
+        minWidth: 200
+    });
+});
+
+$("#myWizard").easyWizard();
+$(".easyWizardButtons").find(".next").addClass("btn btn-primary");
+$(".easyWizardButtons").find(".prev").addClass("btn btn-primary");
+$(".easyWizardButtons").find(".submit").addClass("btn btn-primary");
+var startTime;
+var endTime;
+var intervals={{ post|get_intervals }};
+$("#slider-range").slider({
+    range: true,
+    min: 0,
+    max: 1439,
+    values:[200,800],
+    step:5,
+    slide: slideTime,
+    change: checkSlider,
+    create:createYellow,
+});
+function slideTime(event, ui){
+    var val0 = $("#slider-range").slider("values", 0),
+        val1 = $("#slider-range").slider("values", 1),
+        minutes0 = parseInt(val0 % 60, 10),
+        hours0 = parseInt(val0 / 60 % 24, 10),
+        minutes1 = parseInt(val1 % 60, 10),
+        hours1 = parseInt(val1 / 60 % 24, 10);
+    startTime = getTime(hours0, minutes0);
+    endTime = getTime(hours1, minutes1);
+    $("#id_starting_time").val(hours0+":"+minutes0);
+    $("#id_ending_time").val(hours1+":"+minutes1);
+    $("#time").text(startTime);
+}
+
+function createYellow(event, ui) {
+
+}
+function getTime(hours, minutes) {
+    var time = null;
+    minutes = minutes + "";
+    if (hours < 12) {time = "AM";}
+    else {  time = "PM";}
+    if (hours == 0) {hours = 12;}
+    if (hours > 12) {hours = hours - 12; }
+    if (minutes.length == 1) {minutes = "0" + minutes;}
+    return hours + ":" + minutes + " " + time;
+}
+
+function checkSlider(event,ui){
+
+}
+slideTime();
+//$("#id_starting").timepicker({});
+//$("#id_ending").timepicker({});
+
+</script>
+
+{% endblock main_page %}

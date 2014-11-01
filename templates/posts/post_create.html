@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+{% block main_page %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <h4>col-md-2</h4>
+        </div>
+        <div class="col-md-4">
+            <form class="form" action="" method="post">{% csrf_token %}
+                        {{ form| bootstrap }}
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </form>
+        </div>
+        <div class="col-md-4">
+            <form method="post" action="demoform.asp">
+  <label for="points">Points:</label>
+  <input type="range" name="points" id="points" value="50;80;" step="5" min="0" max="100">
+</form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock main_page %}

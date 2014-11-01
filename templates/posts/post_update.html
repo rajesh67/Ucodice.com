@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+{% block main_page %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    {{ post.title }}
+                </div>
+                <div class="panel-body">
+                        {{ post.description }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-body">
+            <form class="form" action="" method="post">{% csrf_token %}
+                        {{ form| bootstrap }}
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </form>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="panel panel-primary">
+            <div class="panel-body">
+                <h3>plans</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock main_page %}

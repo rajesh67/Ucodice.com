@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block main_page %}
+<div class="container" style="margin-top:70px;">
+<div class="row">
+	<div class="col-md-4">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Post Details
+			</div>
+			<div class="panel-body">
+				Post Details goes here
+			</div>
+		</div>
+	</div>
+	<div class="col-md-8">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				select a time interval to plan
+			</div>
+			<div class="panel-body">
+				<p>
+					<label for="amount">Time Duration:</label>
+					<input type="text" id="amount" readonly style="border:0px;width:100px;color:#8C7009; font-weight:bold;">
+				<div class="pull-right" id="from-to-hours">
+				</div>
+				</p>
+				<div id="slider"></div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+{% endblock main_page%}
+
+{% block navmenu %}
+
+{% if request.user.is_authenticated %}
+
+	<h4>Welcome back, <b>{{ request.user.username }},</b><a href="{% url 'logout' %}">logout</a></h4>
+
+{% else %}
+
+<a href="{% url 'signin' %}"><button class="btn btn-success pull-right">Login</button></a>
+<a href="{% url 'signup' %}"><button class="btn btn-success pull-right">SignUp</button></a>
+
+{% endif %}
+
+{% endblock navmenu %}

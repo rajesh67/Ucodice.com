@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Classifieds, Free Classifieds, free Classified ads</title>
+	 <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css"> -->
+	 <!-- <script src="//code.jquery.com/jquery-1.10.2.js"></script> -->
+  	<link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/dist/css/custom-theme/jquery-ui-1.10.0.custom.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/dist/css/custom-theme/bootstrap-timepicker.min.css"/>
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/styles.css"/>
+    <!-- Bootstrap -->
+    {% load staticfiles %}
+     <script src="{{ STATIC_URL }}bootstrap/dist/js/jquery-1.8.3.min.js"></script>
+      <script src="{{ STATIC_URL }}bootstrap/dist/js/jquery-ui-1.9.2.custom.min.js"></script>
+      <script src="{{ STATIC_URL }}bootstrap/dist/js/bootstrap-timepicker.js"></script>
+      <script src="{{ STATIC_URL }}bootstrap/dist/js/jquery.easyWizard.js"></script>
+      <script src="{{ STATIC_URL }}bootstrap/js/colResizable/js/colResizable-1.3.min.js"></script>
+      <script src="{{ STATIC_URL }}js/scripts.js"></script>
+      <script src="{{ STATIC_URL }}js/timeslider.js"></script>
+      <script src="{{ STATIC_URL }}js/timeslider (copy).js"></script>
+
+    <!--<script src="{{ STATIC_URL }}bootstrap/js/Elessar-master/dist/elessar.min.js"></script>
+    <script src="http://momentjs.com/downloads/moment.min.js"></script>-->
+    <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/js/Elessar-master/elessar.css">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}bootstrap/js/colResizable/css/main.css">
+
+    <link href="{{ STATIC_URL }}bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="{{ STATIC_URL }}homepage.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+  </head>
+  <body>
+    <div class="container" >
+    	<!-- Navigation Bar-->
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="#">Brand</a>
+  </div>
+  <div class="navbar-collapse collapse navbar-responsive-collapse navbar-fixed">
+    <ul class="nav navbar-nav">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Selet Your City?<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Kharagpur</a></li>
+          <li><a href="#">KolKata</a></li>
+          <li><a href="#">Mumbai</a></li>
+          <li class="divider"></li>
+          <li class="dropdown-header">Dropdown header</li>
+          <li><a href="#">Separated link</a></li>
+          <li><a href="#">One more separated link</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="/posts/">Posts</a>
+      </li>
+      <li>
+        <a href="/users/">Users</a>
+      </li>
+    </ul>
+    {% block navmenu %} {% endblock navmenu %}
+  </div>
+</div><!-- /Navigation Bar-->
+	</div>
+	<div class="main_text_area" style="margin-top:70px;">
+	{% block main_page %}
+	{% endblock %}
+	</div>
+	
+	<!-- footer-->
+	<nav class="navbar navbar-default" role="navigation">
+	  <div class="container">
+	    <div class="row">
+	    	<div class="col-md-4" style="">
+	    		<h5><span class="glyphicon glyphicon-tags"></span><b>Popular Cities</b></h5>
+	    	</div>
+	    	<div class="col-md-4">
+	    		<h5><b>Download Our App</b></h5>
+	    	</div>
+	    	<div class="col-md-4">
+	    		<h5><b>Quick Links</b></h5>
+	    	</div>
+	    	
+	    </div>
+	  </div>
+	</nav>
+	<!-- JQuery ui-->
+	  
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{{ STATIC_URL }}/bootstrap/dist/js/bootstrap.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+{% block main_page %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <h4>col-md-2</h4>
+        </div>
+        <div class="col-md-9">
+            <div class="col-md-12">
+                <h1>{{ plan.starting }}</h1>
+            </div>
+            <div class="col-md-6">
+
+            <form class="form" action="" method="post">{% csrf_token %}
+                        {{ form|bootstrap }}
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock main_page %}

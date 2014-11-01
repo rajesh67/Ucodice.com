@@ -1,0 +1,259 @@
+{% extends "base.html" %}
+{% block main_page %}
+{% load plan_extras %}
+{% load bootstrap %}
+<div class="container" style="margin-top:70px;">
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+
+				<b>Post: </b>
+                <a href="#">{{ post.title }}</a>
+
+                <span class="pull-right">
+                    Duration:<b>{{ post.duration }}days</b>,
+                    Arriving on:<b>{{ post.arrival }}</b>,
+                    Ending on:<b>{{ post.departure }}</b>,
+                </span>
+			</div>
+			<div class="panel-body">
+				{{ post.description }}
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <b style="left:5%; position: sticky;">Please Create Plans for {{ dayplans.date }}</b>
+
+            </div>
+            <div class="panel-body">
+
+
+                <div class="pull-center">
+                    <div class="pull-right">
+                        <span class="glyphicon glyphicon-minus" style=""></span>
+                        <b>in this interval plans already exits</b>
+                    </div>
+                    <div>
+                    <div class="pull-left">
+                        From:<input id="min"></input>
+                        Upto<input id="max"></input>
+                        <button id="add-plan-button" class="btn btn-primary" style=""><span class="glyphicon glyphicon-plus"></span>Add Plan</button>
+                    </div>
+
+                    </div>
+
+                    </div>
+                  <div id="slider-range" style="margin-top:40px;"></div>
+
+              </div>
+            </div>
+        </div>
+	</div>
+
+   <div class="col-md-5">
+     <hr style="border-top: dotted 1px;" />
+       <div id="plan-form">
+        <h2>Fill this form to create new plan</h2>
+           <form class="form" action="" method="post">
+               {{ form|bootstrap }}
+              <button type="submit" class="btn btn-default">Submit</button>
+           </form>
+       </div>
+    </div><!-- ////create plan-->
+
+    <!-- already created plans-->
+    <div class="col-md-6">
+        <hr style="border-top: dotted 1px;" />
+        <h1>plans that already exists</h1>
+        {% if dayplans.plans %}
+        {% for plan in dayplans.plans %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{ plan.title }}
+            </div>
+            <div class="panel-body">
+                {{ plan.transport }}
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div><!-- ////already created plans-->
+    <!-- create plan-->
+
+
+
+</div>
+</div>
+<script type="text/javascript">
+var startTime;
+var endTime;
+var arr={% get_values dayplans %};
+var intervals={% get_intervals dayplans %};
+$("#slider-range").slider({
+    range: true,
+    min: 0,
+    max: 1439,
+    values:[200,500],
+    step:5,
+    slide: slideTime,
+    change: checkSlider,
+    create:createYellow
+});
+function slideTime(event, ui){
+    var val0 = $("#slider-range").slider("values", 0),
+        val1 = $("#slider-range").slider("values", 1),
+        minutes0 = parseInt(val0 % 60, 10),
+        hours0 = parseInt(val0 / 60 % 24, 10),
+        minutes1 = parseInt(val1 % 60, 10),
+        hours1 = parseInt(val1 / 60 % 24, 10);
+    startTime = getTime(hours0, minutes0);
+    endTime = getTime(hours1, minutes1);
+    $("#min").val(startTime);
+    $('#max').val(endTime);
+    $("#time").text(startTime + ' - ' + endTime);
+}
+
+function createYellow(event, ui) {
+{% if dayplans.plans %}
+    {% for plan in dayplans.plans %}
+    $(this).append('<div class="ui-slider-range ui-widget-header range-{{ plan.arrival }}-{{ plan.departure }}" style="left: ' + {% left plan %} + '%; width: ' +{% width plan %}+ '%; background: none repeat scroll 0% 0% #CF1920;"></div>');
+   {% endfor %}
+   {% if intervals %}
+    {% for i in intervals %}
+        $(this).append('<div class="ui-slider-range ui-widget-header range-{% interval_name i %}" style="left:'+{% interval_left i %}+'%; width: ' + {% interval_width i %} + '%; background: none repeat scroll 0% 0% #FFE900;"></div>');
+
+    {% endfor %}
+    {% endif %}
+   {% endif %}
+}
+function getTime(hours, minutes) {
+    var time = null;
+    minutes = minutes + "";
+    if (hours < 12) {time = "AM";}
+    else {  time = "PM";}
+    if (hours == 0) {hours = 12;}
+    if (hours > 12) {hours = hours - 12; }
+    if (minutes.length == 1) {minutes = "0" + minutes;}
+    return hours + ":" + minutes + " " + time;
+}
+
+function checkSlider(event,ui){
+    for(var i=0;i<intervals.length-1;i=i+1){
+        interval=intervals[i]
+        if(ui.values[0]>=interval[1]){
+            $("#interval-error").text(ui.values[0]+"<br/>"+ui.values[1]);
+        }
+    }
+}
+slideTime();
+</script>
+<!--<script type="text/javascript">
+var myarr = [600,1000]
+$(function() {
+    $( "#slider-range" ).slider({
+        min:0,
+        max:1440,
+        step:5,
+        values: myarr,
+        slide: function( event, ui ) {
+              if (ui.values[0]>=ui.values[1]){
+                return false;
+              }
+            //$(this).find(".range0").css({ "left":"0"+"%","width": ui.values[0] + "%" });
+            //$(this).find(".range1").css({ "left": ui.values[0] + "%", "width": (ui.values[1]-ui.values[0])  + "%" }) ;
+            //$(this).find(".range2").css({ "left": ui.values[1] + "%", "width": (ui.values[2]-ui.values[1]) + "%" }) ;
+            //$(this).find(".range3").css({ "left": ui.values[2] + "%", "width": (ui.values[3]-ui.values[2]) + "%" }) ;
+            //$(this).find(".range4").css({ "left": ui.values[3] + "%", "width": (100-ui.values[3]) + "%" }) ;
+
+            $("#min").val("minimum");
+
+        },
+        create: function(event, ui) {
+                //$(this).append('<div class="ui-slider-range ui-widget-header range0" style="left: 0%; width: ' + (myarr[0]/14.40) + '%; background: none repeat scroll 0% 0% #CF1920;"></div>');
+                //$(this).append('<div class="ui-slider-range ui-widget-header range1" style="left: ' + myarr[0] + '%; width: ' + (100-myarr[0]) + '%; background: none repeat scroll 0% 0% #FFE900;"></div>');
+                //$(this).append('<div class="ui-slider-range ui-widget-header range2" style="left: ' + myarr[1] + '%; width: ' + (100-myarr[1]) + '%; background: none repeat scroll 0% 0% #26CF2D;"></div>');
+                //$(this).append('<div class="ui-slider-range ui-widget-header range3" style="left: ' + myarr[2] + '%; width: ' + (100-myarr[2]) + '%; background: none repeat scroll 0% 0% #00BCFF;"></div>');
+                //$(this).append('<div class="ui-slider-range ui-widget-header range4" style="left: ' + myarr[3] + '%; width: ' + (100-myarr[3]) + '%; background: none repeat scroll 0% 0% #26CF2D;"></div>');
+                {% for plan in dayplans.plans %}
+                    $(this).append('<div class="ui-slider-range ui-widget-header range-{{ plan.arrival }}-{{ plan.departure }}" style="left: ' + {% left plan %} + '%; width: ' +{% width plan %}+ '%; background: none repeat scroll 0% 0% #FFE900;"></div>');
+                {% endfor %}
+        }
+    });
+});
+
+</script>-->
+
+<!--<script type="text/javascript">
+$("#slider-range").slider({
+         range: true, min: 0, max: 1439, values:[300,900], step:5, slide: slideTime, change: checkMax
+});
+function slideTime(event, ui){
+    var val0 = $("#slider-range").slider("values", 0),
+        val1 = $("#slider-range").slider("values", 1),
+        minutes0 = parseInt(val0 % 60, 10),
+        hours0 = parseInt(val0 / 60 % 24, 10),
+        minutes1 = parseInt(val1 % 60, 10),
+        hours1 = parseInt(val1 / 60 % 24, 10);
+    startTime = getTime(hours0, minutes0);
+    endTime = getTime(hours1, minutes1);
+    $("#time").text(startTime + ' - ' + endTime);
+    $("#min").val(startTime);
+    $("#max").val(endTime);
+}
+function getTime(hours, minutes) {
+    var time = null;
+    minutes = minutes + "";
+    if (hours < 12) {time = "AM";}
+    else {  time = "PM";}
+    if (hours == 0) {hours = 12;}
+    if (hours > 12) {hours = hours - 12; }
+    if (minutes.length == 1) {minutes = "0" + minutes;}
+    return hours + ":" + minutes + " " + time;
+}
+function setPlans(event,ui){
+                $(this).append('<div class="ui-slider-range ui-widget-header range0" style="left: 0%; width: ' + values[0] + '%; background: none repeat scroll 0% 0% #CF1920;"></div>');
+                $(this).append('<div class="ui-slider-range ui-widget-header range1" style="left: ' + myarr[0] + '%; width: ' + (100-values[1]) + '%; background: none repeat scroll 0% 0% #FFE900;"></div>');
+                $(this).append('<div class="ui-slider-range ui-widget-header range2" style="left: ' + myarr[1] + '%; width: ' + (100-values[2]) + '%; background: none repeat scroll 0% 0% #26CF2D;"></div>');
+                $(this).append('<div class="ui-slider-range ui-widget-header range3" style="left: ' + myarr[2] + '%; width: ' + (100-values[2]) + '%; background: none repeat scroll 0% 0% #00BCFF;"></div>')
+}
+
+function checkMax() {
+    var size = $("#slider-range").slider("values", 1) - $("#slider-range").slider("values", 0);
+    if( size >= 1439) {
+        $("#slider-range div")
+            .addClass("ui-state-error")
+            .removeClass("ui-widget-header");
+        $("#scheduleSubmit")
+            .attr("disabled","disabled")
+            .addClass("ui-state-disabled")
+            .removeClass("ui-state-default");
+        $("#SlideMax").text("Cannot be more than 24 hours");
+    }
+    else {
+        $("#slider-range div")
+            .addClass("ui-widget-header")
+            .removeClass("ui-state-error");
+        $("#scheduleSubmit")
+            .removeAttr("disabled")
+            .addClass("ui-state-default")
+            .removeClass("ui-state-disabled");
+        $("#SlideMax").text("");
+    }
+}
+$("#scheduleSubmit").on('click', function(){
+    console.log(startTime);
+    console.log(endTime);
+    $('#Schedule tbody').append('<tr>' +
+        '<td>' + startTime + '</td>' +
+        '<td>' + endTime + '</td>' +
+        '</tr>');
+});
+slideTime();
+</script>-->
+
+
+{% endblock main_page%}

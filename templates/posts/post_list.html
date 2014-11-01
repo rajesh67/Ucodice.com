@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load plan_extras %}
+{% load bootstrap %}
+{% block navmenu %}
+<ul class="nav navbar-nav pull-right" style="margin-right:20px;">
+      <li style="margin-right:10px;"><h4>
+        <a href="/posts/add/">
+          <button class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>{{ request.user.username }}</button>
+        </a>
+        </h4>
+      </li>
+    {% if request.user.is_authenticated %}
+    <li>
+        <h4>
+          <a href="/login/">
+            <button class="btn btn-primary"><span class="glyphicon glyphicon-user"></span>{{ request.user.username }}</button>
+          </a>
+        </h4>
+      </li>
+    {% else %}
+      <li>
+        <h4>
+          <a href="/login/">
+            <button class="btn btn-primary"><span class="glyphicon glyphicon-user"></span>Login/SignUp</button>
+          </a>
+        </h4>
+      </li>
+      {% endif %}
+ </ul>
+{% endblock navmenu %}
+{% block main_page %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3>Posts filtering will be apper here</h3>
+                </div>
+                <div class="panel-body">
+
+                        <h4>Post Description:</h4><br/>
+
+                </div><!--//panel body  -->
+            </div>
+        </div><!--//posts filters  -->
+        <div class="col-md-1"></div>
+        <div class="col-md-8">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h5>Posts filter can be applied here</h5>
+                </div>
+                <div class="panel-body">
+                    {% for post in object_list %}
+                    <div class="col-md-7">
+
+                        <div>
+                            <a href="{% url 'post-details' post.slug %}">{{ post.title }}</a>
+
+                          <span class="pull-right"><small>
+                              Posted On:<b>{{ post.posted_on }}</b>
+                          </small></span>
+                        </div>
+
+                        <div class="well">
+                            <b>{{ post.description }}</b>
+                        </div>
+                    </div>
+                            <div class="col-md-5">
+      <div class="table-responsive">
+
+        <table class="table table-bordered table-condensed f11">
+            <tbody><tr>
+                <td colspan="2" class="info" align="center"><b>Post Details </b></td>
+            </tr>
+            <tr>
+                <td width="35%"><b>Strating:</b></td>
+                <td width="65%">{{ post.arrival }}</td>
+            </tr>
+            <tr>
+                <td><b>Ends on</b></td>
+                <td>{{ post.departure }}</td>
+            </tr>
+            <tr>
+                <td><b>Duration:</b></td>
+                <td>{{ post.duration }}</td>
+            </tr>
+            <tr>
+                <td><b>Destination:</b></td>
+                <td>{{ post.destination }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><a href="{% url 'post-details' post.slug %}"><button class="btn btn-primary">Apply To Plan</button></a></td>
+
+            </tr>
+
+           </tbody>
+
+        </table>
+
+        </div><!--//table responsive -->
+                                <hr style="border-top: dotted 1px;margin-top: -14px;" />
+
+                            </div>
+
+
+                    {% endfor %}
+                </div>
+            </div>
+        </div><!--//all posts list  -->
+    </div>
+</div>
+{% endblock main_page %}
